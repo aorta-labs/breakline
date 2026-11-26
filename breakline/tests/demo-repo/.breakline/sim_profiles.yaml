@@ -1,0 +1,16 @@
+# Offline simulator only. Describes how each model's output differs from the
+# recorded baseline so the demo can show a real-looking regression.
+# In CI (--live) this file is ignored and real models are called.
+gpt-4o-2024-08-06:
+  latency_ms: 820
+gpt-5.4-mini:
+  latency_ms: 610
+  output_token_scale: 1.3
+  wrap_json_fences: true            # returns ```json ... ``` on some prompts
+  fence_on: [t04, t09]
+  label_map: {refund_request: billing_question}   # drifts on refund tickets
+claude-opus-4-5-20251101:
+  latency_ms: 1900
+claude-opus-4-6:
+  latency_ms: 1500
+  output_token_scale: 0.9

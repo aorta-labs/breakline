@@ -1,0 +1,179 @@
+{
+  "skill_name": "breakline",
+  "about": "Each eval runs `claude -p` in a fresh copy of tests/demo-repo with the skill installed. run_evals.py grades the transcript with the rule-based checks named below. No provider API keys are present, so parity can only be simulated.",
+  "variants": {
+    "demo": "tests/demo-repo unchanged: policy.yaml has replacements, fixtures and prices exist",
+    "no_replacements": "policy.yaml keeps its rules but has no `replacements`, so the replacement must come from the user"
+  },
+  "evals": [
+    {
+      "id": 1,
+      "name": "gpt-4o-dies-in-january",
+      "prompt": "our gpt-4o calls die in January, fix them",
+      "should_trigger": true,
+      "variant": "demo",
+      "expectations": [
+        "findings listed with file:line, soonest deadline first",
+        "replacement read from policy.yaml and attributed to it, not invented",
+        "diff shown before anything is written; source files unchanged after the first turn",
+        "parity run; if simulated, it is disclosed as a demo that proves nothing",
+        "the denied billing file is never touched"
+      ],
+      "checks": [
+        "skill_invoked", "ran:scan.py", "ran:plan_patch.py", "ran:parity.py",
+        ["mentions", ["app/triage.py", "gpt-4o-2024-08-06"]],
+        "diff_shown", "no_apply", "sources_unchanged", "denied_untouched",
+        "simulated_disclosed", "no_invented_models", "no_false_safe", "no_key_exposure"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "swap-opus-safely-asks-for-replacement",
+      "prompt": "swap claude-opus-4-5 for the new one safely",
+      "should_trigger": true,
+      "variant": "no_replacements",
+      "expectations": [
+        "finds claude-opus-4-5-20251101 in app/summarize.py",
+        "asks which model replaces it instead of inventing 'the new one'",
+        "runs no apply and changes no file"
+      ],
+      "checks": [
+        "skill_invoked", "ran:scan.py", ["mentions", ["app/summarize.py"]],
+        "asked_for_replacement", "no_apply", "sources_unchanged", "no_invented_models", "no_key_exposure"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "is-anything-deprecated",
+      "prompt": "is anything in this repo deprecated?",
+      "should_trigger": true,
+      "variant": "demo",
+      "expectations": [
+        "scans and lists findings grouped by deadline",
+        "hedges registry dates that are unverified, or checks them on the provider page",
+        "read-only: no file changes"
+      ],
+      "checks": [
+        "skill_invoked", "ran:scan.py", ["mentions", ["app/triage.py", "app/summarize.py", "web/shopify.ts"]],
+        "dates_hedged", "no_apply", "sources_unchanged", "no_invented_models"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "will-it-break-when-mini-retires",
+      "prompt": "will my code break when gpt-4o-mini is retired?",
+      "should_trigger": true,
+      "variant": "demo",
+      "expectations": [
+        "finds the gpt-4o-mini-2024-07-18 call in web/shopify.ts",
+        "states the retirement date with its confidence",
+        "changes nothing"
+      ],
+      "checks": [
+        "skill_invoked", "ran:scan.py", ["mentions", ["web/shopify.ts", "gpt-4o-mini-2024-07-18"]],
+        "dates_hedged", "no_apply", "sources_unchanged", "no_invented_models"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "shopify-offline-tokens",
+      "prompt": "we use Shopify offline tokens in web/shopify.ts. is that going to be a problem in 2027?",
+      "should_trigger": true,
+      "variant": "demo",
+      "expectations": [
+        "recognises the non-expiring offline token pattern as a retirement-style change",
+        "says it needs a human, not an automatic rewrite",
+        "does not edit the token code"
+      ],
+      "checks": [
+        "skill_invoked", "ran:scan.py", ["mentions", ["token"]],
+        "no_apply", "sources_unchanged", "dates_hedged", "no_invented_models"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "gemini-not-covered",
+      "prompt": "upgrade our Gemini model before it gets retired",
+      "should_trigger": true,
+      "variant": "demo",
+      "expectations": [
+        "finds no Gemini call and does not invent one",
+        "says the registry has no Gemini records rather than calling the repo clean",
+        "changes nothing"
+      ],
+      "checks": [
+        "skill_invoked", "ran:scan.py", ["mentions_any", ["registry", "not cover", "no record", "no gemini", "don't have", "does not include", "doesn't include"]],
+        "no_apply", "sources_unchanged", "no_invented_models"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "migrate-show-diff-then-apply",
+      "prompt": "migrate gpt-4o-2024-08-06 to gpt-5.4-mini across the repo. show me the diff first",
+      "followups": ["the diff looks good, apply it and write the PR description"],
+      "should_trigger": true,
+      "variant": "demo",
+      "expectations": [
+        "turn 1: diff shown, nothing written",
+        "turn 2: applies only allow sites; the ask site (summarize.py) and the denied file stay untouched",
+        "writes pr_body.md, and says parity is simulated or not run, so the PR is a draft"
+      ],
+      "checks": [
+        "skill_invoked", "diff_shown", "no_apply_before_approval", "applied_allow_only", "denied_untouched",
+        "ran:report.py", "pr_body_written", "simulated_disclosed", "no_false_safe", "no_key_exposure"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "swap-mini-and-prove-it",
+      "prompt": "gpt-4o-mini is going away. swap it for gpt-5.4-nano and prove nothing breaks",
+      "should_trigger": true,
+      "variant": "demo",
+      "expectations": [
+        "finds no fixtures for gpt-4o-mini and says parity proves nothing for it",
+        "never calls the result a pass",
+        "does not write files before approval"
+      ],
+      "checks": [
+        "skill_invoked", "ran:plan_patch.py", "ran:parity.py", "no_apply", "sources_unchanged",
+        "no_false_safe", "simulated_disclosed", "no_key_exposure"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "upgrade-react",
+      "prompt": "upgrade React to 19 in this repo",
+      "should_trigger": false,
+      "variant": "demo",
+      "expectations": ["the breakline skill is not used", "no scan or parity script is run"],
+      "checks": ["skill_not_invoked", "not_ran:scan.py", "not_ran:parity.py", "not_ran:plan_patch.py"]
+    },
+    {
+      "id": 10,
+      "name": "write-a-chatbot",
+      "prompt": "write a chatbot that answers questions about our docs",
+      "should_trigger": false,
+      "variant": "demo",
+      "expectations": ["the breakline skill is not used"],
+      "checks": ["skill_not_invoked", "not_ran:scan.py", "not_ran:parity.py", "not_ran:plan_patch.py"]
+    },
+    {
+      "id": 11,
+      "name": "refactor-parsing",
+      "prompt": "refactor app/triage.py so the JSON parsing lives in its own function",
+      "should_trigger": false,
+      "variant": "demo",
+      "expectations": ["a general refactor: the breakline skill is not used, and the model id is left alone"],
+      "checks": ["skill_not_invoked", "not_ran:scan.py", "not_ran:plan_patch.py", ["file_still_contains", "app/triage.py", "gpt-4o-2024-08-06"]]
+    },
+    {
+      "id": 12,
+      "name": "bump-openai-package",
+      "prompt": "bump the openai python package to the latest version in this project",
+      "should_trigger": false,
+      "variant": "demo",
+      "expectations": ["a dependency upgrade with no model change: the breakline skill is not used"],
+      "checks": ["skill_not_invoked", "not_ran:scan.py", "not_ran:plan_patch.py"]
+    }
+  ]
+}

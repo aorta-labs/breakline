@@ -1,0 +1,95 @@
+{
+  "registry_version": "2026-11-25",
+  "note": "Seed records. Dates come from the 2026-11-25 research pass; status 'unverified' means re-check the provider page before campaigning on the date.",
+  "changes": [
+    {
+      "id": "openai-gpt-4o-2024-08-06-retire",
+      "provider": "openai",
+      "kind": "model_retirement",
+      "symbol": "gpt-4o-2024-08-06",
+      "effective_date": "2027-01-14",
+      "evidence_url": "https://developers.openai.com/api/docs/deprecations",
+      "evidence_quote": "gpt-4o-2024-08-06 ... removal 2027-01-14",
+      "status": "unverified",
+      "default_replacement": null
+    },
+    {
+      "id": "openai-gpt-4o-2024-11-20-retire",
+      "provider": "openai",
+      "kind": "model_retirement",
+      "symbol": "gpt-4o-2024-11-20",
+      "effective_date": "2027-01-14",
+      "evidence_url": "https://developers.openai.com/api/docs/deprecations",
+      "evidence_quote": "gpt-4o-2024-11-20 ... removal 2027-01-14",
+      "status": "unverified",
+      "default_replacement": null
+    },
+    {
+      "id": "openai-gpt-4o-mini-2024-07-18-retire",
+      "provider": "openai",
+      "kind": "model_retirement",
+      "symbol": "gpt-4o-mini-2024-07-18",
+      "effective_date": "2027-01-14",
+      "evidence_url": "https://developers.openai.com/api/docs/deprecations",
+      "evidence_quote": "gpt-4o-mini-2024-07-18 ... removal 2027-01-14",
+      "status": "unverified",
+      "default_replacement": null
+    },
+    {
+      "id": "openai-gpt-4.1-2025-04-14-retire",
+      "provider": "openai",
+      "kind": "model_retirement",
+      "symbol": "gpt-4.1-2025-04-14",
+      "effective_date": "2027-01-14",
+      "evidence_url": "https://developers.openai.com/api/docs/deprecations",
+      "evidence_quote": "gpt-4.1-2025-04-14 ... removal 2027-01-14",
+      "status": "unverified",
+      "default_replacement": null
+    },
+    {
+      "id": "openai-whisper-1-retire",
+      "provider": "openai",
+      "kind": "model_retirement",
+      "symbol": "whisper-1",
+      "effective_date": "2027-02-26",
+      "evidence_url": "https://developers.openai.com/api/docs/deprecations",
+      "evidence_quote": "whisper-1 ... retirement 2027-02-26",
+      "status": "unverified",
+      "default_replacement": null
+    },
+    {
+      "id": "openai-gpt-5.1-retire",
+      "provider": "openai",
+      "kind": "model_retirement",
+      "symbol": "gpt-5.1",
+      "effective_date": "2027-04-01",
+      "evidence_url": "https://developers.openai.com/api/docs/deprecations",
+      "evidence_quote": "gpt-5.1 ... retirement 2027-04-01",
+      "status": "unverified",
+      "default_replacement": null
+    },
+    {
+      "id": "anthropic-claude-opus-4-5-retire",
+      "provider": "anthropic",
+      "kind": "model_retirement",
+      "symbol": "claude-opus-4-5-20251101",
+      "effective_date": "2027-01-22",
+      "evidence_url": "https://platform.claude.com/docs/en/about-claude/model-deprecations.md",
+      "evidence_quote": "claude-opus-4-5-20251101 ... retirement 2027-01-22",
+      "status": "unverified",
+      "default_replacement": null
+    },
+    {
+      "id": "shopify-offline-token-non-expiring",
+      "provider": "shopify",
+      "kind": "auth_change",
+      "symbol": "non_expiring_offline_token",
+      "effective_date": "2027-01-01",
+      "evidence_url": "https://shopify.dev/docs/apps/build/authentication-authorization/access-tokens#offline-access-tokens",
+      "evidence_quote": "delisted and blocked from new installs",
+      "status": "unverified",
+      "default_replacement": null,
+      "detect_patterns": ["accessMode\\s*[:=]\\s*['\"]offline['\"]", "offline_access_token", "expiringOfflineAccessTokens\\s*[:=]\\s*false"]
+    }
+  ]
+}

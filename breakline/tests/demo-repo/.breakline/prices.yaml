@@ -1,0 +1,6 @@
+# USD per 1M tokens. ILLUSTRATIVE numbers for the offline demo only.
+# Replace with the provider's current price list.
+gpt-4o-2024-08-06:        {input_per_1m: 2.50, output_per_1m: 10.00}
+gpt-5.4-mini:             {input_per_1m: 0.40, output_per_1m: 1.60}
+claude-opus-4-5-20251101: {input_per_1m: 5.00, output_per_1m: 25.00}
+claude-opus-4-6:          {input_per_1m: 5.00, output_per_1m: 25.00}

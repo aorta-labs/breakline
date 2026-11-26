@@ -1,0 +1,25 @@
+# Breakline policy. Copy to <repo>/.breakline/policy.yaml and edit.
+# Reference: references/policy-format.md
+
+# The team chooses each replacement. Breakline never invents one.
+# Add a line per retiring model once you have confirmed the new id on the provider's models page:
+#   <old-model-id>: <new-model-id>
+replacements: {}
+
+# First matching rule wins. A site that matches no rule is treated as `ask`.
+rules:
+  - match: {path: "tests/*"}
+    action: allow            # patch automatically
+  - match: {path: "billing/*"}
+    action: deny             # report it, never edit it
+  - match: {provider: anthropic}
+    action: ask              # patch only after a human approves it
+  - match: {path: "*"}
+    action: ask
+
+# What "behaves the same" means. A result outside any threshold is a FAIL.
+parity:
+  min_schema_valid: 1.0       # every new output must parse and match the schema
+  min_label_agreement: 0.95   # share of fixtures where the label equals the old label
+  max_numeric_drift: 0.05     # relative change allowed in numeric fields
+  max_cost_increase: 0.25     # +25% cost on the fixtures

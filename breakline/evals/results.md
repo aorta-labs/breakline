@@ -1,0 +1,14 @@
+| # | Eval | Triggers | Result | Cost |
+| --- | --- | --- | --- | --- |
+| 1 | gpt-4o-dies-in-january | yes | PASS | $0.241 |
+| 2 | swap-opus-safely-asks-for-replacement | yes | PASS | $0.188 |
+| 3 | is-anything-deprecated | yes | PASS | $0.231 |
+| 4 | will-it-break-when-mini-retires | yes | PASS | $0.152 |
+| 5 | shopify-offline-tokens | yes | PASS | $0.214 |
+| 6 | gemini-not-covered | yes | PASS | $0.133 |
+| 7 | migrate-show-diff-then-apply | yes | PASS | $0.514 |
+| 8 | swap-mini-and-prove-it | yes | PASS | $0.215 |
+| 9 | upgrade-react | no | PASS | $0.058 |
+| 10 | write-a-chatbot | no | PASS | $0.447 |
+| 11 | refactor-parsing | no | PASS | $0.054 |
+| 12 | bump-openai-package | no | PASS | $0.086 |
